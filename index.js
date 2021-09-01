@@ -25,7 +25,7 @@ const serial = async () => {
     await account.login(email, password);
     
     const result = await account.getDevices([3, 15, 17]);
-    return result.devices[1].serial_number;
+    return result.devices[0].serial_number;
   }
 
 const LaunchRequestHandler = {
@@ -52,13 +52,13 @@ const OpenIntentHandler = {
 
     let speakOutput = 'The door is ' + status
     if (status === 'open') {
-      speakOutput = 'The door is already open';
+      speakOutput = 'The garage door is already open';
     }
     
     if (status === 'closed') {
       try {
         await account.setDoorState(await serial(), MyQ.actions.door.OPEN);
-        speakOutput = 'The door is opening'
+        speakOutput = 'The garage door is opening'
       } catch(error) {
         console.log(error)
       }
@@ -80,13 +80,13 @@ const CloseIntentHandler = {
 
     let speakOutput = 'The door is ' + status
     if (status === 'closed') {
-      speakOutput = 'The door is already closed'
+      speakOutput = 'The garage door is already closed'
     }
 
     if (status === 'open') {
       try {
           await account.setDoorState(await serial(), MyQ.actions.door.CLOSE);
-          speakOutput = 'The door is closing'
+          speakOutput = 'The garage door is closing'
       } catch(error) {
           console.log(error)
       }
